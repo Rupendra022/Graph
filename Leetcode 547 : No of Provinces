@@ -1,0 +1,43 @@
+class Solution {
+    public void dfs(int node, boolean[] vis, ArrayList<ArrayList<Integer>> adj) {
+        vis[node] = true;
+
+        for (int nei : adj.get(node)) {
+            if (!vis[nei]) {
+                vis[nei] = true;
+                dfs(nei, vis, adj);
+            }
+        }
+    }
+
+    public int findCircleNum(int[][] mat) {
+
+        // converted mat to adj list 
+        int v = mat.length;
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < v; i++) {
+            adj.add(new ArrayList<>());
+        }
+        for (int i = 0; i < v; i++) {
+            for (int j = 0; j < v; j++) {
+                if (i != j && mat[i][j] == 1) {
+                    adj.get(i).add(j);
+                    adj.get(j).add(i);
+                }
+            }
+        }
+
+        boolean[] vis = new boolean[v];
+        int count = 0;
+
+        for (int i = 0; i < v; i++) {
+            if (!vis[i]) {
+                vis[i] = true;
+                dfs(i, vis, adj);
+                count++;
+            }
+        }
+
+        return count;
+    }
+}
