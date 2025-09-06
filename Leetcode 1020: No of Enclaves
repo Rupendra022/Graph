@@ -1,0 +1,60 @@
+class Pair {
+    int first;
+    int second;
+
+    Pair(int first, int second) {
+        this.first = first;
+        this.second = second;
+    }
+}
+
+class Solution {
+    public int numEnclaves(int[][] grid) {
+
+        int m = grid.length;
+        int n = grid[0].length;
+        boolean[][] vis = new boolean[m][n];
+        Queue<Pair> q = new LinkedList<>();
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == 0 || j == 0 || i == m - 1 || j == n - 1) {// store the invalid one which are at boundary 
+                    if (grid[i][j] == 1) {
+                        q.offer(new Pair(i, j));
+                        vis[i][j] = true;
+                    }
+
+                }
+            }
+        }
+
+        int[] dr = { 0, 1, 0, -1 };
+        int[] dc = { 1, 0, -1, 0 };
+        // bfs traversal 
+        while (!q.isEmpty()) {
+            int sr = q.peek().first;
+            int sc = q.peek().second;
+            q.remove();
+
+            // if valid then move all four directions of boundary one's 
+            for (int i = 0; i < 4; i++) {
+                int r = sr + dr[i];
+                int c = sc + dc[i];
+                if (r >= 0 && r < m && c >= 0 && c < n && grid[r][c] == 1 && !vis[r][c]) {
+                    q.offer(new Pair(r, c));
+                    vis[r][c] = true;
+                }
+            }
+        }
+        int count = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (!vis[i][j] && grid[i][j] == 1) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+}
