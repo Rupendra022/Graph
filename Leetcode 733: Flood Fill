@@ -1,0 +1,29 @@
+class Solution {
+    public void helper(int[][] mat, int sr, int sc, int r, int c, int originalColor, int color, boolean[][] vis) {
+        if (sr >= r || sc >= c || sr < 0 || sc < 0 || mat[sr][sc] != originalColor || vis[sr][sc] == true) {
+            return;
+        }
+        mat[sr][sc] = color;
+        vis[sr][sc] = true;
+        int[] dr = { 0, 1, 0, -1 };
+        int[] dc = { 1, 0, -1, 0 };
+        for (int i = 0; i < 4; i++) {
+            helper(mat, sr + dr[i], sc + dc[i], r, c, originalColor, color, vis);
+        }
+    }
+
+    public int[][] floodFill(int[][] mat, int sr, int sc, int color) {
+
+        if (mat[sr][sc] == color) {
+            return mat;
+        }
+        int originalColor = mat[sr][sc];
+        int r = mat.length;
+        int c = mat[0].length;
+        boolean[][] vis = new boolean[r][c];
+
+        helper(mat, sr, sc, r, c, originalColor, color, vis);
+
+        return mat;
+    }
+}
