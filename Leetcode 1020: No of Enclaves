@@ -1,3 +1,4 @@
+1. BY USING BFS >- 
 class Pair {
     int first;
     int second;
@@ -56,5 +57,55 @@ class Solution {
         }
 
         return count;
+    }
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+2. BY USING DFS >- 
+class Solution {
+    // RADHE RADHE 
+    public void dfs(int sr , int sc , int row , int col  ,int[][] grid ){
+        if(sr<0 || sr>=row || sc<0 || sc>=col  || grid[sr][sc]==0 ){
+            return ; 
+        }
+        
+        grid[sr][sc] = 0 ; 
+        int[] dr = {1,0,-1,0};
+        int[] dc = {0,1,0,-1};
+        
+        for(int i = 0 ; i<4 ; i++){
+            dfs(sr+dr[i],sc+dc[i],row,col,grid);
+        }
+    }
+
+    int numberOfEnclaves(int[][] grid) {
+
+        // Your code here
+        int m = grid.length ; 
+        int n = grid[0].length ; 
+        
+       
+        for(int i = 0 ; i<m ; i++){
+            for(int j = 0 ; j<n ; j++){
+                if(i==0 || j==0 || i==m-1 || j==n-1){
+                    if(grid[i][j]==1){
+                       dfs(i,j,m,n,grid);  
+                    }
+                    
+                }
+            }
+        }
+        
+        int count = 0 ; 
+        for(int i = 0 ; i<m ; i++){
+            for(int j = 0 ; j<n ; j++){
+                if(grid[i][j]==1){
+                    count++ ; 
+                }
+            }
+        }
+        
+        return count ;
     }
 }
