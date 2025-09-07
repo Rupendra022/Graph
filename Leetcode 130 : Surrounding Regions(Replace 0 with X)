@@ -1,0 +1,40 @@
+class Solution {
+    public void dfs(int sr, int sc, int rows, int cols, boolean[][] vis, char[][] board) {
+        if (sr < 0 || sc < 0 || sr >= rows || sc >= cols || vis[sr][sc] || board[sr][sc] != 'O') {
+            return;
+        }
+
+        vis[sr][sc] = true;
+        int[] dr = { 0, 1, 0, -1 };
+        int[] dc = { 1, 0, -1, 0 };
+
+        for (int i = 0; i < 4; i++) {
+            dfs(sr + dr[i], sc + dc[i], rows, cols, vis, board);
+        }
+    }
+
+    public void solve(char[][] board) {
+
+        int m = board.length;
+        int n = board[0].length;
+
+        boolean[][] vis = new boolean[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == 0 || j == 0 || i == m - 1 || j == n - 1) {
+                    if (board[i][j] == 'O' ) {
+                        dfs(i, j, m, n, vis, board);
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (board[i][j] == 'O' && !vis[i][j]) {
+                    board[i][j] = 'X';
+                }
+            }
+        }
+    }
+}
