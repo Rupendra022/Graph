@@ -1,0 +1,59 @@
+
+class Solution {
+    public boolean dfs(int sr , int sc , int dr , int dc , int row , int col ,int[][] grid , boolean[][] vis){
+        if( sr<0 || sr>=row || sc<0 || sc>=col || vis[sr][sc]|| grid[sr][sc]==0){
+            return false ; 
+        }
+        
+        vis[sr][sc] = true ; 
+        if(sr==dr && sc==dc){
+            return true ; 
+        }
+        
+        int[] dir = {1,0,-1,0};
+        int[] dic = {0,1,0,-1};
+        
+        for(int i = 0 ; i<4 ; i++){
+           if(dfs(sr+dir[i],sc+dic[i],dr,dc,row,col,grid,vis)){
+               return true ;
+           }
+        }
+        
+        return false ;
+    }
+    // Function to find whether a path exists from the source to destination.
+    public boolean is_Possible(int[][] grid) {
+        // Code here
+        int m = grid.length ; 
+        int n = grid[0].length ; 
+        int src_row = -1 ; 
+        int src_col = -1 ;
+        
+        int dest_row = -1 ; 
+        int dest_col = -1 ; 
+        
+        for(int i = 0 ; i<m ; i++){
+            for(int j = 0 ; j<n ; j++){
+                if(grid[i][j]==1){
+                    src_row = i ; 
+                    src_col = j ; 
+                }
+                else if(grid[i][j]==2){
+                    dest_row = i ; 
+                    dest_col = j ; 
+                }
+            }
+        }
+        
+        if(src_row==-1 || dest_row==-1){
+            return false  ; 
+        }
+        
+        boolean[][] vis = new boolean[m][n];
+        
+        return dfs(src_row , src_col , dest_row , dest_col ,m , n ,grid,vis);
+        
+        
+        
+    }
+}
