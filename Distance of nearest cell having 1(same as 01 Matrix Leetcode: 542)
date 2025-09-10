@@ -1,0 +1,54 @@
+class Pair {
+    int row;
+    int col;
+    int steps;
+
+    Pair(int row, int col, int steps) {
+        this.row = row;
+        this.col = col;
+        this.steps = steps;
+    }
+}
+
+class Solution {
+    public int[][] updateMatrix(int[][] mat) {
+
+        int m = mat.length;
+        int n = mat[0].length;
+
+        boolean[][] vis = new boolean[m][n];
+        int[][] dist = new int[m][n];
+        Queue<Pair> q = new LinkedList<>();
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (mat[i][j] == 0) {
+                    vis[i][j] = true;
+                    q.offer(new Pair(i, j, 0));
+                }
+            }
+        }
+
+        int[] dr = { 0, 1, 0, -1 };
+        int[] dc = { 1, 0, -1, 0 };
+
+        while (!q.isEmpty()) {
+            int sr = q.peek().row;
+            int sc = q.peek().col;
+            int d = q.peek().steps;
+            q.poll();
+            dist[sr][sc] = d;
+
+            for (int i = 0; i < 4; i++) {
+                int r = sr + dr[i];
+                int c = sc + dc[i];
+                if (r >= 0 && r < m && c >= 0 && c < n && !vis[r][c]) {
+                    q.offer(new Pair(r, c, d + 1));
+                    vis[r][c] = true;
+
+                }
+            }
+        }
+
+        return dist;
+    }
+}
