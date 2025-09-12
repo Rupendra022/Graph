@@ -1,0 +1,49 @@
+class Solution {
+    // RADHE RADHE 
+    public String Convert(int r , int c){
+        return Integer.toString(r)+" "+Integer.toString(c);
+    }
+    public void dfs(int sr , int sc ,int r , int c , int[][] grid , boolean[][] vis , int baserow ,int basecol,ArrayList<String> vec){
+        if(sr<0 || sr>=r || sc<0 || sc>=c || grid[sr][sc]==0 || vis[sr][sc]){
+            return ;
+        }
+        
+        vis[sr][sc] = true ;
+        vec.add(Convert(sr-baserow,sc-basecol));
+        
+        int[] dr = {0,1,0,-1};
+        int[] dc = {1,0,-1,0};
+        
+        for(int i = 0 ; i<4 ; i++){
+            int nr = sr+dr[i];
+            int nc = sc+dc[i];
+            dfs(nr,nc,r,c,grid,vis,baserow,basecol,vec);
+        }
+        
+        
+    }
+
+    int countDistinctIslands(int[][] grid) {
+        // Your Code her
+        
+        int m = grid.length ; 
+        int n = grid[0].length ; 
+        boolean [][] vis = new boolean[m][n];
+        
+        HashSet<ArrayList<String>> st = new HashSet<>();
+        
+        for(int i = 0 ; i<m ; i++){
+            for(int j = 0 ; j<n ; j++){
+                if(grid[i][j]==1 && !vis[i][j]){
+                    ArrayList<String> vec = new ArrayList<>();
+                    dfs(i,j,m,n,grid,vis,i,j,vec);
+                    st.add(vec);
+                }
+            }
+        }
+        
+        
+    
+    return st.size();        
+    }
+}
