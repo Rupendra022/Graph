@@ -1,0 +1,28 @@
+class Solution {
+    public int[] shortestPath(ArrayList<ArrayList<Integer>> adj, int src) {
+        // code here
+        // RADHE RADHE 
+        int sz = adj.size();
+        int[] dist = new int[sz];
+        Arrays.fill(dist,-1);
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(src);
+        dist[src] = 0 ; 
+        
+        while(!q.isEmpty()){
+            
+            int current = q.remove();
+            
+            for(int nei : adj.get(current)){
+                if(dist[nei]==-1){
+                    dist[nei] = dist[current]+1 ; 
+                    q.offer(nei);
+                }
+            }
+        }
+        
+       
+        
+        return dist ;
+    }
+}
