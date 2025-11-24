@@ -1,0 +1,57 @@
+// FOR UNDIRECTED WEIGHTED GRAPH >-
+
+class Solution {
+    class Pair {
+        int node;
+        int wt;
+
+        Pair(int node, int wt) {
+            this.node = node;
+            this.wt = wt;
+        }
+    }
+
+    public int[] dijkstra(int V, int[][] edges, int src) {
+
+        ArrayList<ArrayList<Pair>> adj = new ArrayList<>();
+        for (int i = 0; i < V; i++) adj.add(new ArrayList<>());
+
+        for (int i = 0; i < edges.length; i++) {
+            int u = edges[i][0];
+            int v = edges[i][1];
+            int w = edges[i][2];
+            adj.get(u).add(new Pair(v, w));
+            adj.get(v).add(new Pair(u, w));
+        }
+
+        int[] dist = new int[V];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a, b) -> a.wt - b.wt);
+
+        dist[src] = 0;
+        pq.add(new Pair(src, 0));
+
+        while (!pq.isEmpty()) {
+
+            Pair current = pq.poll();
+            int node = current.node;
+            int wt = current.wt;
+
+            // IMPORTANT OPTIMIZATION
+            if (wt > dist[node]) continue;
+
+            for (Pair nei : adj.get(node)) {
+                int edgeNode = nei.node;
+                int edgeWt = nei.wt;
+
+                if (wt + edgeWt < dist[edgeNode]) {
+                    dist[edgeNode] = wt + edgeWt;
+                    pq.add(new Pair(edgeNode, dist[edgeNode]));
+                }
+            }
+        }
+
+        return dist;
+    }
+}
