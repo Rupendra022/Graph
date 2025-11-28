@@ -1,0 +1,40 @@
+class Solution {
+    public int[] bellmanFord(int V, int[][] edges, int src) {
+        // code here
+        
+        // RADHE RADHE 
+       int[] dist = new int[V];
+       
+       for(int i = 0 ; i<V ; i++){
+           dist[i] = (int) 1e8  ; 
+       }
+       
+       dist[src] = 0 ; 
+       
+       for(int i = 0 ; i<V-1 ; i++){
+           for(int [] nei : edges){
+               int u = nei[0];
+               int v = nei[1];
+               int wt = nei[2];
+               if(dist[u]!=(int)1e8 && dist[u]+wt < dist[v]){
+                   dist[v] = dist[u]+wt ; 
+               }
+           }
+       }
+       
+       // for negative cycyle detection >- 
+           for(int[] nei : edges){
+              int u = nei[0];
+              int v = nei[1];
+              int wt = nei[2];
+               if(dist[u]!=(int)1e8 && dist[u]+wt < dist[v]){
+                   // means there is neg cycle 
+                   int[] temp = new int[1];
+                   temp[0] = -1 ; 
+                   return temp ; 
+              } 
+           }
+       
+       return dist ;
+    }
+}
